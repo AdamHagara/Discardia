@@ -2,6 +2,10 @@
 
 A 2D psychological horror card game built with Java and LibGDX.
 
+![Discardia — the entity watches](screenshots/entity.png)
+
+![Discardia — gameplay](screenshots/gameplay.png)
+
 ## Download & Play
 
 Go to the [**Releases**](../../releases/latest) page and download the file for your system:
@@ -27,8 +31,8 @@ Discardia is a single-player card game set in a dark, atmospheric environment. Y
 - Draw and play emotion cards from your deck
 - Keep your candles lit to hold off the entity
 - Special cards (Blessing, Curse, Darkness, Hallucination, Time) introduce unpredictable twists
-- Place 30 cards to win.
-- Be wary of the Entity and your time.
+- Survive until the deck runs out to win
+
 ---
 
 ## For Developers
