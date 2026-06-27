@@ -3,10 +3,9 @@ name: Build & Release
 on:
   push:
     tags:
-      - 'v*'   # spustí sa pri tagu ako v1.0.0
+      - 'v*'
 
 jobs:
-  # ── 1. Fat JAR (cross-platform, potrebuje Javu) ──────────────────────────
   jar:
     name: Build JAR
     runs-on: ubuntu-latest
@@ -23,7 +22,6 @@ jobs:
           name: jar
           path: lwjgl3/build/libs/*.jar
 
-  # ── 2. Windows .exe (Java zabalená dovnútra) ─────────────────────────────
   windows:
     name: Build Windows
     runs-on: windows-latest
@@ -34,13 +32,12 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build Windows executable
-        run: ./gradlew lwjgl3:runtimeWinX64
+        run: ./gradlew lwjgl3:packageWinX64
       - uses: actions/upload-artifact@v4
         with:
           name: windows
-          path: lwjgl3/build/runtime/winX64/
+          path: lwjgl3/build/construo/dist/
 
-  # ── 3. Linux binary ──────────────────────────────────────────────────────
   linux:
     name: Build Linux
     runs-on: ubuntu-latest
@@ -51,13 +48,12 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build Linux binary
-        run: ./gradlew lwjgl3:runtimeLinuxX64
+        run: ./gradlew lwjgl3:packageLinuxX64
       - uses: actions/upload-artifact@v4
         with:
           name: linux
-          path: lwjgl3/build/runtime/linuxX64/
+          path: lwjgl3/build/construo/dist/
 
-  # ── 4. macOS (Apple Silicon) ─────────────────────────────────────────────
   macos:
     name: Build macOS
     runs-on: macos-latest
@@ -68,13 +64,12 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build macOS binary
-        run: ./gradlew lwjgl3:runtimeMacM1
+        run: ./gradlew lwjgl3:packageMacM1
       - uses: actions/upload-artifact@v4
         with:
           name: macos
-          path: lwjgl3/build/runtime/macM1/
+          path: lwjgl3/build/construo/dist/
 
-  # ── 5. Vytvor GitHub Release so všetkými súbormi ─────────────────────────
   release:
     name: Create Release
     needs: [jar, windows, linux, macos]
@@ -86,15 +81,6 @@ jobs:
         with:
           path: artifacts/
 
-      - name: Zip Windows build
-        run: zip -r artifacts/Discardia-windows.zip artifacts/windows/
-
-      - name: Zip Linux build
-        run: zip -r artifacts/Discardia-linux.zip artifacts/linux/
-
-      - name: Zip macOS build
-        run: zip -r artifacts/Discardia-macos.zip artifacts/macos/
-
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
@@ -104,12 +90,12 @@ jobs:
 
             | Platforma | Súbor | Poznámka |
             |-----------|-------|----------|
-            | Windows | `Discardia-windows.zip` | Rozbaľ a spusti `Discardia.exe` |
-            | Linux | `Discardia-linux.zip` | Rozbaľ a spusti `Discardia` |
-            | macOS (Apple Silicon) | `Discardia-macos.zip` | Rozbaľ a spusti `Discardia` |
-            | Všetky OS | `Discardia-*.jar` | Potrebuje [Java 21](https://adoptium.net/) — `java -jar Discardia-1.0.0.jar` |
+            | Windows | `*-windows.zip` | Rozbaľ a spusti `Discardia.exe` |
+            | Linux | `*-linux.zip` | Rozbaľ a spusti `Discardia` |
+            | macOS (Apple Silicon) | `*-mac*.zip` | Rozbaľ a spusti `Discardia` |
+            | Všetky OS (JAR) | `Discardia-1.0.0.jar` | Potrebuje [Java 21](https://adoptium.net/) |
           files: |
-            artifacts/Discardia-windows.zip
-            artifacts/Discardia-linux.zip
-            artifacts/Discardia-macos.zip
+            artifacts/windows/*.zip
+            artifacts/linux/*.zip
+            artifacts/macos/*.zip
             artifacts/jar/*.jar
