@@ -121,6 +121,21 @@ construo {
     // human-readable name, used for example in the `.app` name for macOS
     humanName.set(appName)
 
+    jlink {
+        // logback nie je kompatibilny s jdeps, vypneme automaticke hladanie modulov
+        guessModulesFromJar.set(false)
+        // pridame moduly ktore LibGDX + logback potrebuju
+        modules.addAll(
+            "java.base",
+            "java.desktop",
+            "java.logging",
+            "java.management",
+            "java.naming",
+            "java.xml",
+            "jdk.unsupported"
+        )
+    }
+
     targets.configure {
       register("linuxX64", Target.Linux) {
         architecture.set(Target.Architecture.X86_64)

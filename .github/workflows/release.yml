@@ -16,7 +16,9 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build fat JAR
-        run: ./gradlew lwjgl3:jar
+        run: |
+          chmod +x gradlew
+          ./gradlew lwjgl3:jar
       - uses: actions/upload-artifact@v4
         with:
           name: jar
@@ -48,7 +50,9 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build Linux binary
-        run: ./gradlew lwjgl3:packageLinuxX64
+        run: |
+          chmod +x gradlew
+          ./gradlew lwjgl3:packageLinuxX64
       - uses: actions/upload-artifact@v4
         with:
           name: linux
@@ -64,7 +68,9 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build macOS binary
-        run: ./gradlew lwjgl3:packageMacM1
+        run: |
+          chmod +x gradlew
+          ./gradlew lwjgl3:packageMacM1
       - uses: actions/upload-artifact@v4
         with:
           name: macos
