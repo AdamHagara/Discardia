@@ -182,7 +182,7 @@ public class GameScreen extends ScreenAdapter {
         pixmap.dispose();
         this.matchesSound = Gdx.audio.newSound(Gdx.files.internal("Matches.mp3"));
         this.huntSound = Gdx.audio.newSound(Gdx.files.internal("Hunt_footsteps.mp3"));
-        this.winSound = Gdx.audio.newSound(Gdx.files.internal("Win_Sound.mp3"));
+        this.winSound = Gdx.audio.newSound(Gdx.files.internal("Win_sound.mp3"));
         this.cardDrawSound = Gdx.audio.newSound(Gdx.files.internal("Card_draw.mp3"));
         this.cardPlaceSound = Gdx.audio.newSound(Gdx.files.internal("Card_place.mp3"));
 
